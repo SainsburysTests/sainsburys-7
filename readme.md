@@ -16,7 +16,7 @@ However I found the challenge interesting so the following is as far as I got.
 
 * I used the Granule Json library, this provides a decent 'pretty print' toString() method.
 
-* Artefacts included : </br>
+* Artefacts include : </br>
 	1. This readme </br>
 	2. An executable jar Scrape.jar which can be run from the command line: using [C:\workspace\sainsburys>]java -jar Scrape.jar </br>
 	3. site.html - the page source. This should be placed in the same directory as Scrape.jar</br>
