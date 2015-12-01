@@ -33,12 +33,12 @@ public class Scrape {
 
 	private static final String UNIT = "/unit";
 
-	// This is only hardcoded because it is a test application. It seems a
-	// rather long url to add to a properties file
+	// This is only hardcoded because it is a test application. It seemed a
+	// rather long url to add to a properties file 
 	// or to enter from the command line (This is modified from url in PDF to
-	// remove
-	// duplicate and empty parameters in a failed attempt to access the page
-	// programmatically.)
+	// remove 	// duplicate and empty parameters in a failed attempt to access 
+	// the page programmatically.)
+	//  TODO Original comments - need updating
 	private static final String TESTURL = "http://hiring-tests.s3-website-eu-west-1.amazonaws.com/2015_Developer_Scrape/5_products.html";
 
 	private final static Logger LOG = Logger.getLogger(Scrape.class.getName());
