@@ -2,21 +2,13 @@ package hybristest.scrape.util;
 
 
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
 
 /**
  * Utility class for converting bytes to more readable format.
+ * There was going to other methods in here but I didn't get that far.
  * 
  * @author Mike
  *
@@ -69,5 +61,4 @@ public class ScrapeUtils {
 
 		return hrSize.toString();
 	}
-	
 }

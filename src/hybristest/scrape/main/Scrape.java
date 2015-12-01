@@ -35,11 +35,11 @@ public class Scrape {
 
 	// This is only hardcoded because it is a test application. It seems a
 	// rather long url to add to a properties file
-	// or to enter from the command line (This is modified from url in PDF to remove
-	// duplicate and empty parameters in a failed attempt to access the page programmatically.)
-	private static final String TESTURL = "http://www.sainsburys.co.uk/webapp/wcs/stores/servlet/CategoryDisplay?"
-			+ "listView=true&orderBy=FAVOURITES_FIRST&parent_category_rn=12518&top_category=12518&langId=44&beginIndex=0&"
-			+ "pageSize=20&catalogId=10137&categoryId=185749&storeId=10151&hideFilters=true";
+	// or to enter from the command line (This is modified from url in PDF to
+	// remove
+	// duplicate and empty parameters in a failed attempt to access the page
+	// programmatically.)
+	private static final String TESTURL = "http://hiring-tests.s3-website-eu-west-1.amazonaws.com/2015_Developer_Scrape/5_products.html";
 
 	private final static Logger LOG = Logger.getLogger(Scrape.class.getName());
 
@@ -50,10 +50,9 @@ public class Scrape {
 	 */
 	public static void main(String[] args) {
 
-		// Parse the URL
 		Scrape scrape = new Scrape();
 		try {
-		
+			// Parse the URL
 			Document doc = scrape.fetchDocumentByUrl();
 			Elements mainListerDiv = scrape.getProductLister(doc);
 			if (CollectionUtils.isNotEmpty(mainListerDiv)) {
@@ -70,6 +69,7 @@ public class Scrape {
 			LOG.error("Unable to access URL :" + e.getMessage());
 		}
 	}
+
 	/**
 	 * Totals the prices.
 	 * 
@@ -91,6 +91,7 @@ public class Scrape {
 		}
 		return total.setScale(2);
 	}
+
 	/**
 	 * Prints the results using the logger
 	 * 
@@ -100,6 +101,7 @@ public class Scrape {
 	private static void printResults(JSONObject results) throws JSONException {
 		LOG.info(results.toString(4));
 	}
+
 	/**
 	 * Returns the product list items as a json array
 	 * 
@@ -243,6 +245,20 @@ public class Scrape {
 	}
 
 	/**
+	 * Method used for test. It assumes the file exists in the directory in
+	 * which the app is being run.
+	 * 
+	 * @param filename
+	 * @return
+	 * @throws IOException
+	 */
+	public Document fetchDocumentByFile(final String filename)
+			throws IOException {
+		File input = new File(filename);
+		return Jsoup.parse(input, "UTF-8", TESTURL);
+	}
+
+	/**
 	 * Returns the page as a document Using a file for the input as using the
 	 * Jsoup.connect()... call didn't work, probably due to dynamic page
 	 * generation. No time to investigate fully. Source was saved to file from
@@ -253,15 +269,12 @@ public class Scrape {
 	 * 
 	 */
 	public Document fetchDocumentByUrl() throws IOException {
-	    File input = new File("site.html");
-		return Jsoup.parse(input, "UTF-8", TESTURL);
-		
-//		 The following didn't  work. Left in for posterity.
-//		 Map<String,String> paramsMap = new LinkedHashMap<String,String>();
-//		 String url = parseUrlForParameters(TESTURL,paramsMap);
-//		 return
-//		 Jsoup.connect(url).maxBodySize(0).data(paramsMap).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1")
-//		 .timeout(0).ignoreContentType(true).get();
+
+		// File input = new File("site.html");
+		// return Jsoup.parse(input, "UTF-8", TESTURL);
+
+		return Jsoup.connect(TESTURL).maxBodySize(0).userAgent("Mozilla/5.0")
+				.timeout(0).get();
 	}
 
 	/**
@@ -272,10 +285,12 @@ public class Scrape {
 	 * @throws IOException
 	 */
 	public Document fetchProductPage(final String url) throws IOException {
-
+		// return Jsoup.parse(ScrapeUtils.loadContentByHttpClient(url), "UTF-8",
+		// url);
 		return Jsoup.connect(url).maxBodySize(0).userAgent("Mozilla/5.0")
 				.timeout(0).get();
 	}
+
 	/**
 	 * Returns the product listView elements
 	 * 
@@ -286,9 +301,10 @@ public class Scrape {
 		return doc.select(".listView");
 
 	}
+
 	/**
 	 * Used to pass parameters as a data map. However this attempt to get the
-	 * page dynamically 
+	 * page dynamically
 	 */
 	public String parseUrlForParameters(final String url,
 			Map<String, String> paramsMap) {

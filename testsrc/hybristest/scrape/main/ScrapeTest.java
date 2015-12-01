@@ -20,6 +20,10 @@ public class ScrapeTest {
 
 	private final static Logger LOG = Logger.getLogger(ScrapeTest.class.getName());
 	
+	/**
+	 * This test was written when I was trying to access the original url and investigating different ways of fetching the doc.
+	 * 
+	 */
 	@Test
 	public void parseUrlTest(){
 		String TESTURL = "http://www.sainsburys.co.uk/webapp/wcs/stores/servlet/CategoryDisplay?"
@@ -33,6 +37,7 @@ public class ScrapeTest {
 		for(int i = 0; i < paramsArray.length -1; i += 2){
 			paramsMap.put(paramsArray[i], paramsArray[i+1]);
 		}
+		//Make sure we have a map the correct size, if not there could be duplicates.
 		assertEquals(paramsArray.length/2,paramsMap.size());
 
 	}
@@ -40,12 +45,28 @@ public class ScrapeTest {
 	 * When we access the url we want to get a document back
 	 */
 	@Test
-	public void fetchTest() {
+	public void fetchDocumentByUrlTest() {
 		LOG.info("in fetchTest");
 		Scrape testScrape = new Scrape();
 		Document doc = null;
 		try {
 			doc = testScrape.fetchDocumentByUrl();
+		} catch (IOException e) {			
+			LOG.error(e.getMessage());
+		}
+		assertNotNull(doc);
+
+	}
+	/**
+	 * When we access the url we want to get a document back
+	 */
+	@Test
+	public void fetchDocumentByFileTest() {
+		LOG.info("in fetchTest");
+		Scrape testScrape = new Scrape();
+		Document doc = null;
+		try {
+			doc = testScrape.fetchDocumentByFile("site.html");
 		} catch (IOException e) {			
 			LOG.error(e.getMessage());
 		}
@@ -61,7 +82,7 @@ public class ScrapeTest {
 		Scrape testScrape = new Scrape();
 		Document doc = null;
 		try {
-			doc = testScrape.fetchDocumentByUrl();
+			doc = testScrape.fetchDocumentByFile("site.html");
 			Elements mainListerDiv = testScrape.getProductLister(doc);
 			Iterator<Element> iterator = mainListerDiv.iterator();
 			while (iterator.hasNext()) {
@@ -76,31 +97,37 @@ public class ScrapeTest {
 	}
 	@Test
 	public void testFormatPageSizeKB(){
+		LOG.info("in testFormatPageSizeKB");
 		String formattedSize = ScrapeUtils.formatPageSize(1536L);
 		assertEquals("1.50Kb",formattedSize);
 	}
 	@Test
 	public void testFormatPageSizeB(){
+		LOG.info("in testFormatPageSizeB");
 		String formattedSize = ScrapeUtils.formatPageSize((long) (1024L * 0.5));
 		assertEquals("0.50Kb",formattedSize);
 	}
 	@Test
 	public void testFormatPageSizeMB(){
+		LOG.info("in testFormatPageSizMB");
 		String formattedSize = ScrapeUtils.formatPageSize(5767168L);
 		assertEquals("5.50Mb",formattedSize);
 	}
 	@Test
 	public void testFormatPageSizeGB(){
+		LOG.info("in testFormatPageSizeGB");
 		String formattedSize = ScrapeUtils.formatPageSize(1024 * 1024 * 1024 );
 		assertEquals("1.00Gb",formattedSize);
 	}
 	@Test
 	public void testFormatPageSizeZero(){
+		LOG.info("in testFormatPageSizeZero");
 		String formattedSize = ScrapeUtils.formatPageSize(0 );
 		assertEquals("0.00Kb",formattedSize);
 	}
 	@Test
 	public void testFormatPageSizeShouldFail(){
+		LOG.info("in testFormatPageSizeShouldFail");
 		String formattedSize = ScrapeUtils.formatPageSize(0 );
 		assertEquals("0.04440Kb",formattedSize);
 	}
