@@ -15,9 +15,10 @@ However I found the challenge interesting so the following is as far as I got.
  assumption. I did spend some time looking for a solution but the search was unsuccessful.
  I carried on with the task using the source of the page as saved from Firefox. The 
  saved page source is included in the supplied artifacts. Jsoup didn't have any trouble
- accessing the product page links from the saved page.
+ accessing the product page links from the saved page. I have since been sent the correct
+ test specification.
  
- The url in the pdf contains duplicate and 'empty' parameters.
+ The url in the original  pdf contained duplicate and 'empty' parameters.
 
 * I wrote a few unit tests - in ScrapeTest.java. As I had the saved paged as a static file the 
   tests use the same page. The tests are incomplete in that there are not enough edge cases.
